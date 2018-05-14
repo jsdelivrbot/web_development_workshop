@@ -3,10 +3,10 @@ var fs = require('fs');
 var ejs = require('ejs');
 
 var count=0;
-
+var book_names = ["book1", "book2"];
 //create a server object:
 http.createServer(function (req, res) {
-
+    count++;
     //log the incoming request url
     console.log('[BEGIN] received request: ' + req.url);
     var path = 'assets' + req.url;
@@ -29,8 +29,8 @@ http.createServer(function (req, res) {
         return;
     }
 
-    if(req.url == '/books'){
-        ejs.renderFile('./test.ejs', {count_value: count++}, {}, function(err, str) {
+    if(req.url == '/request_count'){
+        ejs.renderFile('./test.ejs', {count_value: count}, {}, function(err, str) {
             res.end(str);
         });
         return;
