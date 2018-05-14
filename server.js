@@ -3,7 +3,7 @@ var fs = require('fs');
 var ejs = require('ejs');
 
 var count=0;
-var book_names = ["book1", "book2"];
+var books = ["Head first Java", "Refactoring", "Clean Code", "Programming in Scala"];
 //create a server object:
 http.createServer(function (req, res) {
     count++;
@@ -35,6 +35,20 @@ http.createServer(function (req, res) {
         });
         return;
     }
+
+    if(req.url == '/books'){
+        ejs.renderFile('./books.ejs', {books: books}, {}, function(err, str) {
+            res.end(str);
+        });
+        return;
+    }
+
+    // if(req.url == '/add_book'){
+    //     ejs.renderFile('./assets/add_book.', {count_value: count}, {}, function(err, str) {
+    //         res.end(str);
+    //     });
+    //     return;
+    // }
 
     if(req.url == '/some_custom_url'){
         res.end();
