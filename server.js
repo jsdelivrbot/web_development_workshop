@@ -1,5 +1,8 @@
 var http = require('http');
 var fs = require('fs');
+var ejs = require('ejs');
+
+var count=0;
 
 //create a server object:
 http.createServer(function (req, res) {
@@ -23,6 +26,13 @@ http.createServer(function (req, res) {
     if(req.url == '/date'){
         res.write(new Date() + "");
         res.end();
+        return;
+    }
+
+    if(req.url == '/books'){
+        ejs.renderFile('./test.ejs', {count_value: count++}, {}, function(err, str) {
+            res.end(str);
+        });
         return;
     }
 
