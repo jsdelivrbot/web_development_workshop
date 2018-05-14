@@ -1,9 +1,11 @@
 var http = require('http');
 var fs = require('fs');
 var ejs = require('ejs');
+var queryString = require('query-string');
 
 var count=0;
 var books = ["Head first Java", "Refactoring", "Clean Code", "Programming in Scala"];
+
 //create a server object:
 http.createServer(function (req, res) {
     count++;
@@ -43,12 +45,20 @@ http.createServer(function (req, res) {
         return;
     }
 
-    // if(req.url == '/add_book'){
-    //     ejs.renderFile('./assets/add_book.', {count_value: count}, {}, function(err, str) {
-    //         res.end(str);
-    //     });
-    //     return;
-    // }
+    if(req.url == '/add_book'){
+        var body = '';
+        req.on('data', function(data) {
+            body += data;
+        });
+        req.on('end', function(data) {
+            var book_details = queryString.parse(body);
+            console.log(body);
+            console.log(book_details);
+            books.push(book_details.name);
+            res.end("Added book. Thanks");
+        });
+        return;
+    }
 
     if(req.url == '/some_custom_url'){
         res.end();

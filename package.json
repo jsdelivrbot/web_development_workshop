@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "ejs": "^2.6.1"
+    "ejs": "^2.6.1",
+    "query-string": "^6.1.0"
   },
   "devDependencies": {},
   "scripts": {
