@@ -1,8 +1,22 @@
 <html>
+<head>
+</head>
 <body>
     <form method="post" action="/add_book">
         Name:
-        <input type="text" name="name" />
-        <input type="submit" value="Submit" />
+        <input type="text" id="book_name" name="name" />
+        <input type="submit" id="submit_button" value="Submit" />
     </form>
+    <script type="text/javascript">
+        console.log('document loaded!')
+
+        var submitButton = document.getElementById('submit_button');
+        submitButton.onclick = function(event) {
+            var textBox = document.getElementById('book_name');
+            if (textBox.value == ""){
+                alert('name is empty')
+                event.preventDefault();
+            }
+        }
+    </script>
 </body>
