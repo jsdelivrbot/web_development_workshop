@@ -4,13 +4,19 @@
     <title>Book list</title>
 </head>
 <body>
-<h4><a href="add_book.html"> Add book </a></h4>
-<h3>List of books:</h3>
-<ul>
-<% for (book of books) {%>
-    <h4> <%= book.id %> - <%= book.name %> - <%= book.author %> - count available: <%= book.count %> </h4>
-<%}%>
-</ul>
+    <h4><a href="add_book.html"> Add book </a></h4>
+    <h3>List of books:</h3>
+    <ul>
+        <% for (book of books) {%>
+        <form method="post" action="/borrow_book">
+            <h4>
+                <%= book.id %> - <%= book.name %> - <%= book.author %> - count available: <%= book.count %>
+                <input type="text" name="book_id" value="<%= book.id %>">
+                <input type="submit" value="Borrow">
+            </h4>
+        </form>
+        <%}%>
+    </ul>
 
 </body>
 </html>

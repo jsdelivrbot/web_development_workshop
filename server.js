@@ -19,6 +19,10 @@ http.createServer(function (req, res) {
     console.log('[BEGIN] received request: ' + req.url);
     var path = 'assets' + req.url;
 
+    if (req.url=='/') {
+        path = 'assets/index.html';
+    }
+
     // (static file serving handled here)
     if (fs.existsSync(path)) {
         // read file if it exists
@@ -71,6 +75,26 @@ http.createServer(function (req, res) {
             book_store.add(book_details, function(err) {
                 res.writeHead(302, {'Location': '/books'})
                 res.end();
+            });
+        });
+        return;
+    }
+
+    if(req.url == '/borrow_book'){
+        var body = '';
+        req.on('data', function(data) {
+            body += data;
+        });
+        req.on('end', function(data) {
+            var book_details = queryString.parse(body);
+            console.log(body);
+            console.log(book_details);
+            book_store.load(book_details.book_id, function(err, book) {
+                book.count--;
+                book_store.add(book, function() {
+                    res.writeHead(302, {'Location': '/books'})
+                    res.end();
+                });
             });
         });
         return;
