@@ -6,6 +6,12 @@ var book_store = require('json-fs-store')('./storage/books')
 
 var count=0;
 
+var books_count=0;
+
+book_store.list(function(err, books) {
+    books_count = books.length;
+});
+
 //create a server object:
 http.createServer(function (req, res) {
     count++;
@@ -59,6 +65,7 @@ http.createServer(function (req, res) {
                 res.end("please visit /add_books.html to add books");
                 return;
             }
+            book_details.id = ++books_count;
             console.log(body);
             console.log(book_details);
             book_store.add(book_details, function(err) {
