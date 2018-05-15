@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "ejs": "^2.6.1",
+    "json-fs-store": "^1.0.1",
     "query-string": "^6.1.0"
   },
   "devDependencies": {},

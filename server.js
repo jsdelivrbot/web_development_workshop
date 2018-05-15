@@ -2,9 +2,9 @@ var http = require('http');
 var fs = require('fs');
 var ejs = require('ejs');
 var queryString = require('query-string');
+var book_store = require('json-fs-store')('./storage/books')
 
 var count=0;
-var books = ["Head first Java", "Refactoring", "Clean Code", "Programming in Scala"];
 
 //create a server object:
 http.createServer(function (req, res) {
@@ -39,8 +39,10 @@ http.createServer(function (req, res) {
     }
 
     if(req.url == '/books'){
-        ejs.renderFile('./books.ejs', {books: books}, {}, function(err, str) {
-            res.end(str);
+        var books = book_store.list(function (err, books) {
+            ejs.renderFile('./books.ejs', {books: books}, {}, function(err, str) {
+                res.end(str);
+            });
         });
         return;
     }
@@ -52,10 +54,17 @@ http.createServer(function (req, res) {
         });
         req.on('end', function(data) {
             var book_details = queryString.parse(body);
+            if(body=="") {
+                res.writeHead(302, {'Location': '/add_book.html'})
+                res.end("please visit /add_books.html to add books");
+                return;
+            }
             console.log(body);
             console.log(book_details);
-            books.push(book_details.name);
-            res.end("Added book. Thanks");
+            book_store.add(book_details, function(err) {
+                res.writeHead(302, {'Location': '/books'})
+                res.end();
+            });
         });
         return;
     }
