@@ -1,0 +1,8 @@
+{
+  "name": "web development workshop sample application",
+  "description": "",
+  "repository": "https://github.com/ashokgowtham/web_development_workshop",
+  "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/master/public/node.svg",
+  "keywords": ["node", "heroku"],
+  "image": "heroku/nodejs"
+}

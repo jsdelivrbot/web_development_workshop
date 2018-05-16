@@ -11,7 +11,7 @@
         <form method="post" action="/borrow_book">
             <h4>
                 <%= book.id %> - <%= book.name %> - <%= book.author %> - count available: <%= book.count %>
-                <input type="text" name="book_id" value="<%= book.id %>">
+                <input type="text" name="book_id" value="<%= book.id %>" hidden="true">
                 <input type="submit" value="Borrow">
             </h4>
         </form>
