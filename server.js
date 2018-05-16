@@ -95,6 +95,10 @@ var httpServer = http.createServer(function (req, res) {
             console.log(body);
             console.log(book_details);
             book_store.load(book_details.book_id, function(err, book) {
+                if(err){
+                    console.log('book not found: %d', book_details.book_id);
+                    return;
+                }
                 book.count = +book.count || 0;
                 book.count--;
                 book_store.add(book, function() {
