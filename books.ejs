@@ -18,5 +18,18 @@
         <%}%>
     </ul>
 
+    <script type="text/javascript">
+        var ws = new WebSocket("ws://localhost:8080");
+        ws.onopen = function() {
+            console.log('websockets connected to server');
+            ws.send('hello from client');
+        };
+
+        ws.onmessage = function (evt) {
+            var received_msg = evt.data;
+            console.log("Message received: %s", received_msg);
+        };
+    </script>
+
 </body>
 </html>

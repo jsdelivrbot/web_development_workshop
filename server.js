@@ -3,6 +3,7 @@ var fs = require('fs');
 var ejs = require('ejs');
 var queryString = require('query-string');
 var book_store = require('json-fs-store')('./storage/books')
+var WebSocket = require('ws');
 
 const SERVER_PORT = process.env.PORT || 8080;
 
@@ -15,7 +16,7 @@ book_store.list(function(err, books) {
 });
 
 //create a server object:
-http.createServer(function (req, res) {
+var httpServer = http.createServer(function (req, res) {
     count++;
     //log the incoming request url
     console.log('[BEGIN] received request: ' + req.url);
@@ -75,6 +76,7 @@ http.createServer(function (req, res) {
             book_details.count = +book_details.count || 0;
             console.log(body);
             console.log(book_details);
+            // book_details.id = book_store++;
             book_store.add(book_details, function(err) {
                 res.writeHead(302, {'Location': '/books'})
                 res.end();
@@ -115,3 +117,26 @@ http.createServer(function (req, res) {
     res.end();
 
 }).listen(SERVER_PORT); //the server object listens on port 8080
+
+
+// create a websockets server
+var wss = new WebSocket.Server({
+    server: httpServer
+});
+
+wss.on('connection', function connection(ws, req) {
+
+    const ip = req.connection.remoteAddress;
+    console.log("[%s] new client connected", ip);
+
+    ws.on('message', function incoming(message) {
+        console.log('[%s] websocket message received: %s', ip, message);
+    });
+
+    ws.on('close', function close() {
+        console.log('[%s] client disconnected', ip);
+    });
+
+     ws.send('hi client');
+
+});
