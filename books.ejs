@@ -10,7 +10,7 @@
         <% for (book of books) {%>
         <form method="post" action="/borrow_book">
             <h4>
-                <%= book.id %> - <%= book.name %> - <%= book.author %> - count available: <%= book.count %>
+                <%= book.id %> - <%= book.name %> - <%= book.author %> - count available: <span id="book_count_<%= book.id %>"><%= book.count %></span>
                 <input type="text" name="book_id" value="<%= book.id %>" hidden="true">
                 <input type="submit" value="Borrow">
             </h4>
@@ -26,8 +26,9 @@
         };
 
         ws.onmessage = function (evt) {
-            var received_msg = evt.data;
-            console.log("Message received: %s", received_msg);
+            var msg = JSON.parse(evt.data);
+            console.log("Message received:", msg);
+            document.getElementById('book_count_' + msg.book_id).innerHTML = msg.book_count
         };
     </script>
 

@@ -98,6 +98,7 @@ var httpServer = http.createServer(function (req, res) {
                 book.count = +book.count || 0;
                 book.count--;
                 book_store.add(book, function() {
+                    broadcast({book_id: book.id, book_count: book.count});
                     res.writeHead(302, {'Location': '/books'})
                     res.end();
                 });
@@ -136,7 +137,13 @@ wss.on('connection', function connection(ws, req) {
     ws.on('close', function close() {
         console.log('[%s] client disconnected', ip);
     });
-
-     ws.send('hi client');
-
 });
+
+function broadcast(data) {
+    var data = JSON.stringify(data);
+    wss.clients.forEach(function (client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    });
+};
