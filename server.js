@@ -72,6 +72,7 @@ http.createServer(function (req, res) {
                 return;
             }
             book_details.id = ++books_count;
+            book_details.count = +book_details.count || 0;
             console.log(body);
             console.log(book_details);
             book_store.add(book_details, function(err) {
@@ -92,6 +93,7 @@ http.createServer(function (req, res) {
             console.log(body);
             console.log(book_details);
             book_store.load(book_details.book_id, function(err, book) {
+                book.count = +book.count || 0;
                 book.count--;
                 book_store.add(book, function() {
                     res.writeHead(302, {'Location': '/books'})
