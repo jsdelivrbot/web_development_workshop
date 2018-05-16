@@ -4,6 +4,8 @@ var ejs = require('ejs');
 var queryString = require('query-string');
 var book_store = require('json-fs-store')('./storage/books')
 
+const SERVER_PORT = process.env.PORT || 8080;
+
 var count=0;
 
 var books_count=0;
@@ -110,4 +112,4 @@ http.createServer(function (req, res) {
     res.writeHead(404);
     res.end();
 
-}).listen(8080); //the server object listens on port 8080
+}).listen(SERVER_PORT); //the server object listens on port 8080
