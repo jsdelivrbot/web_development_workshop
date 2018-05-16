@@ -38,7 +38,11 @@
         ws.onmessage = function (evt) {
             var msg = JSON.parse(evt.data);
             console.log("Message received:", msg);
-            document.getElementById('book_count_' + msg.book_id).innerHTML = msg.book_count
+            var element = document.getElementById('book_count_' + msg.book_id);
+            if(element)
+                element.innerHTML = msg.book_count
+            else
+                location.reload();
         };
     </script>
 
